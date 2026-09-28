@@ -27,7 +27,7 @@ Docker Compose; copy it to `.env` (which is git-ignored) and set real values.
 | `SERVER_PORT` | backend | `8080` | HTTP port |
 | `REMINDERS_ENABLED` | backend | `true` | Turns the reminder scheduler on or off |
 | `REMINDERS_INTERVAL` | backend | `PT1M` | Delay between reminder runs (ISO-8601 duration) |
-| `BACK_PORT`, `WEB_PORT` | Compose | `8080`, `4200` | Published host ports |
+| `MYSQL_PORT`, `BACK_PORT`, `WEB_PORT` | Compose | `3306`, `8080`, `4200` | Published host ports (MySQL only on `127.0.0.1`) |
 
 Generate a strong secret with `openssl rand -base64 48`.
 

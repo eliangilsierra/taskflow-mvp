@@ -7,6 +7,9 @@ services:
       MYSQL_USER: ${MYSQL_USER:?set MYSQL_USER in .env}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set MYSQL_PASSWORD in .env}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}
+    # Published on the loopback interface only, for running the backend on the host.
+    ports:
+      - "127.0.0.1:${MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
@@ -27,6 +30,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
       JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
       JWT_TTL: ${JWT_TTL:-1h}
+      REMINDERS_ENABLED: ${REMINDERS_ENABLED:-true}
+      REMINDERS_INTERVAL: ${REMINDERS_INTERVAL:-PT1M}
       SERVER_PORT: 8080
     ports:
       - "${BACK_PORT:-8080}:8080"
