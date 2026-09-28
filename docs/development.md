@@ -29,6 +29,7 @@ Docker Compose; copy it to `.env` (which is git-ignored) and set real values.
 | `REMINDERS_INTERVAL` | backend | `PT1M` | Delay between reminder runs (ISO-8601 duration) |
 | `MYSQL_PORT`, `BACK_PORT`, `WEB_PORT` | Compose | `3306`, `8080`, `4200` | Published host ports (MySQL only on `127.0.0.1`) |
 
+`JWT_SECRET` is intentionally empty in `.env.example`, and Compose refuses to start until you set it.
 Generate a strong secret with `openssl rand -base64 48`.
 
 ## Running the stack
