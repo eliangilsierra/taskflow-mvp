@@ -25,6 +25,8 @@ services:
       DB_URL: ${DB_URL:-jdbc:mysql://mysql:3306/taskflow}
       DB_USERNAME: ${DB_USERNAME:?set DB_USERNAME in .env}
       DB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      JWT_TTL: ${JWT_TTL:-1h}
       SERVER_PORT: 8080
     ports:
       - "${BACK_PORT:-8080}:8080"
