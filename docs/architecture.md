@@ -56,10 +56,14 @@ Source-code dependencies only point **inward**:
 
 | Layer | May depend on | Must not depend on |
 |---|---|---|
-| `domain` | the JDK and `shared.error` | Spring, JPA, HTTP |
-| `application` | `domain` | controllers, JPA entities |
-| `infrastructure` | `domain` | `api`, `application` |
+| `domain` | the JDK and the shared kernel (`shared.error`, `shared.pagination`) | Spring, JPA, HTTP, any other layer |
+| `application` | `domain` | `infrastructure`, `api` |
+| `infrastructure` | `domain`; `application` only for *driving* adapters such as the reminder scheduler, which call a use case | `api` |
 | `api` | `application`, `domain` | `infrastructure` |
+
+Features are independent too: `tasks` never imports from `auth` (it only needs the caller's id), and
+`shared` never imports from a feature. These rules are enforced by `ArchitectureTest` (ArchUnit), so
+a violating change fails the build.
 
 The domain declares *ports* (`TaskRepository`, `PasswordHasher`, `ReminderNotifier`, …) and the
 infrastructure layer *implements* them (dependency inversion). Swapping MySQL for another store, or
@@ -174,7 +178,7 @@ src/app
 
 | Level | Backend | Frontend |
 |---|---|---|
-| Unit | Domain rules and use cases with Mockito | Services, guards, interceptor, helpers |
+| Unit | Domain rules and use cases with Mockito; architecture rules with ArchUnit | Services, guards, interceptor, helpers |
 | Component / integration | `@SpringBootTest` + MockMvc through the real security chain and Flyway migrations on H2 (MySQL mode) | Component tests with `TestBed` |
 | Manual / smoke | Verified against a real MySQL 8 (migrations, schema validation, scheduler) | Browser run through the full flow behind nginx |
 
