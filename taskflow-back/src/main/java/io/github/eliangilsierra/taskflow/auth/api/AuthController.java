@@ -3,6 +3,7 @@ package io.github.eliangilsierra.taskflow.auth.api;
 import io.github.eliangilsierra.taskflow.auth.application.AuthenticateUser;
 import io.github.eliangilsierra.taskflow.auth.application.GetCurrentUser;
 import io.github.eliangilsierra.taskflow.auth.application.RegisterUser;
+import io.github.eliangilsierra.taskflow.shared.security.AuthenticatedUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -52,6 +53,6 @@ class AuthController {
   @GetMapping("/me")
   @Operation(summary = "Return the authenticated user")
   UserResponse me(@AuthenticationPrincipal Jwt jwt) {
-    return UserResponse.from(getCurrentUser.execute(Long.parseLong(jwt.getSubject())));
+    return UserResponse.from(getCurrentUser.execute(AuthenticatedUser.idOf(jwt)));
   }
 }
