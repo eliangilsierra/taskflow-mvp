@@ -9,7 +9,9 @@ describe('TasksService', () => {
   let http: HttpTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
     service = TestBed.inject(TasksService);
     http = TestBed.inject(HttpTestingController);
   });
@@ -17,7 +19,12 @@ describe('TasksService', () => {
   afterEach(() => http.verify());
 
   it('sends only the filters that are set', () => {
-    const filters: TaskFilters = { status: '', priority: 'HIGH', search: '  report ', sort: 'DUE_DATE' };
+    const filters: TaskFilters = {
+      status: '',
+      priority: 'HIGH',
+      search: '  report ',
+      sort: 'DUE_DATE',
+    };
 
     service.list(filters, 2, 10).subscribe();
 
@@ -32,7 +39,13 @@ describe('TasksService', () => {
   });
 
   it('maps each operation to the matching endpoint', () => {
-    const input: TaskInput = { title: 'A', description: null, priority: 'LOW', dueDate: null, reminderAt: null };
+    const input: TaskInput = {
+      title: 'A',
+      description: null,
+      priority: 'LOW',
+      dueDate: null,
+      reminderAt: null,
+    };
 
     service.create(input).subscribe();
     expect(http.expectOne('/api/tasks').request.method).toBe('POST');

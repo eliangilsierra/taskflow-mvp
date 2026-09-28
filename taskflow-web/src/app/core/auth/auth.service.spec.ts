@@ -20,7 +20,11 @@ describe('AuthService', () => {
     });
     const router = TestBed.inject(Router);
     spyOn(router, 'navigate').and.resolveTo(true);
-    return { service: TestBed.inject(AuthService), http: TestBed.inject(HttpTestingController), router };
+    return {
+      service: TestBed.inject(AuthService),
+      http: TestBed.inject(HttpTestingController),
+      router,
+    };
   }
 
   beforeEach(() => localStorage.clear());
@@ -48,7 +52,9 @@ describe('AuthService', () => {
   it('stores the session after registering', () => {
     const { service, http } = setup();
 
-    service.register({ email: 'ana@example.com', password: 'secret-pass', displayName: 'Ana' }).subscribe();
+    service
+      .register({ email: 'ana@example.com', password: 'secret-pass', displayName: 'Ana' })
+      .subscribe();
     http.expectOne('/api/auth/register').flush(RESPONSE);
 
     expect(service.isAuthenticated()).toBeTrue();
@@ -67,7 +73,11 @@ describe('AuthService', () => {
   it('ignores an expired or corrupt stored session', () => {
     localStorage.setItem(
       'taskflow.session',
-      JSON.stringify({ accessToken: 'old', expiresAt: '2000-01-01T00:00:00Z', user: RESPONSE.user }),
+      JSON.stringify({
+        accessToken: 'old',
+        expiresAt: '2000-01-01T00:00:00Z',
+        user: RESPONSE.user,
+      }),
     );
     expect(setup().service.isAuthenticated()).toBeFalse();
 

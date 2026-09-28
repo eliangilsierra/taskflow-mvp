@@ -32,7 +32,11 @@ describe('TaskListComponent', () => {
   const root = (): HTMLElement => fixture.nativeElement as HTMLElement;
 
   function create(page: Page<Task>): void {
-    service = jasmine.createSpyObj<TasksService>('TasksService', ['list', 'changeStatus', 'delete']);
+    service = jasmine.createSpyObj<TasksService>('TasksService', [
+      'list',
+      'changeStatus',
+      'delete',
+    ]);
     service.list.and.returnValue(of(page));
     TestBed.configureTestingModule({
       imports: [TaskListComponent],
@@ -43,7 +47,12 @@ describe('TaskListComponent', () => {
   }
 
   it('renders the loaded tasks with their badges', () => {
-    create(pageOf([task({ dueDate: '2000-01-01', overdue: true }), task({ id: 2, title: 'Other', priority: 'LOW' })]));
+    create(
+      pageOf([
+        task({ dueDate: '2000-01-01', overdue: true }),
+        task({ id: 2, title: 'Other', priority: 'LOW' }),
+      ]),
+    );
 
     expect(root().querySelectorAll('.task').length).toBe(2);
     expect(root().textContent).toContain('Write report');

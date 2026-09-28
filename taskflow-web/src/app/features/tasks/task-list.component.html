@@ -54,7 +54,9 @@
             class="task-check"
             [checked]="task.status === 'DONE'"
             (change)="toggleDone(task)"
-            [attr.aria-label]="'Mark ' + task.title + (task.status === 'DONE' ? ' as to do' : ' as done')"
+            [attr.aria-label]="
+              'Mark ' + task.title + (task.status === 'DONE' ? ' as to do' : ' as done')
+            "
           />
           <div class="task-body">
             <a class="task-title" [routerLink]="['/tasks', task.id, 'edit']">{{ task.title }}</a>

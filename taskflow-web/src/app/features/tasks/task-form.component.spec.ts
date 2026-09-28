@@ -82,7 +82,9 @@ describe('TaskFormComponent', () => {
     setup('7');
 
     expect(service.get).toHaveBeenCalledWith(7);
-    expect(root().querySelector<HTMLInputElement>('input[formControlName="title"]')!.value).toBe('Existing');
+    expect(root().querySelector<HTMLInputElement>('input[formControlName="title"]')!.value).toBe(
+      'Existing',
+    );
 
     type('input[formControlName="title"]', 'Renamed');
     submit();

@@ -33,7 +33,9 @@ describe('LoginComponent', () => {
   }
 
   function submit(): void {
-    (fixture.nativeElement as HTMLElement).querySelector('form')!.dispatchEvent(new Event('submit'));
+    (fixture.nativeElement as HTMLElement)
+      .querySelector('form')!
+      .dispatchEvent(new Event('submit'));
     fixture.detectChanges();
   }
 
@@ -54,12 +56,17 @@ describe('LoginComponent', () => {
 
   it('shows the server error and re-enables the form', () => {
     login.and.returnValue(
-      throwError(() => new HttpErrorResponse({ status: 401, error: { detail: 'Invalid email or password.' } })),
+      throwError(
+        () =>
+          new HttpErrorResponse({ status: 401, error: { detail: 'Invalid email or password.' } }),
+      ),
     );
     fill('ana@example.com', 'wrong');
     submit();
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.querySelector('[role="alert"]')?.textContent).toContain('Invalid email or password.');
+    expect(root.querySelector('[role="alert"]')?.textContent).toContain(
+      'Invalid email or password.',
+    );
     expect(root.querySelector<HTMLButtonElement>('button[type="submit"]')?.disabled).toBeFalse();
   });
 });

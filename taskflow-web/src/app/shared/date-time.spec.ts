@@ -7,7 +7,9 @@ describe('date-time helpers', () => {
   });
 
   it('formats the local time without seconds', () => {
-    expect(toDateTimeLocalValue('2026-03-01T09:30:00.000Z')).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
+    expect(toDateTimeLocalValue('2026-03-01T09:30:00.000Z')).toMatch(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+    );
   });
 
   it('treats empty values as no date', () => {

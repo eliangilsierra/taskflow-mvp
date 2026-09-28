@@ -42,7 +42,9 @@ describe('authInterceptor', () => {
 
   it('does not attach the token to login or to other origins', () => {
     http.post('/api/auth/login', {}).subscribe();
-    expect(controller.expectOne('/api/auth/login').request.headers.has('Authorization')).toBeFalse();
+    expect(
+      controller.expectOne('/api/auth/login').request.headers.has('Authorization'),
+    ).toBeFalse();
 
     http.get('https://example.com/data').subscribe();
     expect(
@@ -66,9 +68,7 @@ describe('authInterceptor', () => {
 
   it('keeps the session on a failed login attempt', () => {
     http.post('/api/auth/login', {}).subscribe({ error: () => undefined });
-    controller
-      .expectOne('/api/auth/login')
-      .flush({}, { status: 401, statusText: 'Unauthorized' });
+    controller.expectOne('/api/auth/login').flush({}, { status: 401, statusText: 'Unauthorized' });
     expect(logout).not.toHaveBeenCalled();
   });
 });

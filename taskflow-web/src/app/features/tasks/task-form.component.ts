@@ -64,7 +64,10 @@ export class TaskFormComponent implements OnInit {
     this.error.set(null);
     const input = this.toInput();
     const id = this.id();
-    const request = id === undefined ? this.tasksService.create(input) : this.tasksService.update(Number(id), input);
+    const request =
+      id === undefined
+        ? this.tasksService.create(input)
+        : this.tasksService.update(Number(id), input);
     request.subscribe({
       next: () => void this.router.navigateByUrl('/tasks'),
       error: (error: unknown) => {

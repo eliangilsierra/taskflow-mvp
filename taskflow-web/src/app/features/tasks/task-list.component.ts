@@ -81,7 +81,9 @@ export class TaskListComponent implements OnInit {
   private afterDelete(): void {
     const current = this.page();
     const wasLastItemOnPage = current !== null && current.items.length === 1;
-    this.goToPage(wasLastItemOnPage && this.pageIndex() > 0 ? this.pageIndex() - 1 : this.pageIndex());
+    this.goToPage(
+      wasLastItemOnPage && this.pageIndex() > 0 ? this.pageIndex() - 1 : this.pageIndex(),
+    );
   }
 
   private load(): void {

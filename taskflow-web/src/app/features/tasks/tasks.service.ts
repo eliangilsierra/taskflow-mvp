@@ -11,10 +11,7 @@ export class TasksService {
   private readonly http = inject(HttpClient);
 
   list(filters: TaskFilters, page: number, size: number): Observable<Page<Task>> {
-    let params = new HttpParams()
-      .set('sort', filters.sort)
-      .set('page', page)
-      .set('size', size);
+    let params = new HttpParams().set('sort', filters.sort).set('page', page).set('size', size);
     if (filters.status) {
       params = params.set('status', filters.status);
     }
