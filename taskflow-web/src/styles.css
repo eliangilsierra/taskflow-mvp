@@ -178,3 +178,8 @@ textarea:focus-visible,
   color: var(--danger);
   background: var(--danger-bg);
 }
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+}

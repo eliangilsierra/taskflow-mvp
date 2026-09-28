@@ -1,0 +1,52 @@
+<section class="card">
+  <h2>{{ isEditing ? 'Edit task' : 'New task' }}</h2>
+
+  @if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label class="field">
+        <span>Title</span>
+        <input type="text" formControlName="title" maxlength="120" />
+        @if (form.controls.title.touched && form.controls.title.invalid) {
+          <small class="field-error">A title is required (up to 120 characters).</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Description</span>
+        <textarea formControlName="description" rows="4" maxlength="2000"></textarea>
+      </label>
+
+      <label class="field">
+        <span>Priority</span>
+        <select formControlName="priority">
+          @for (priority of priorities; track priority) {
+            <option [value]="priority">{{ priorityLabels[priority] }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Due date</span>
+        <input type="date" formControlName="dueDate" />
+      </label>
+
+      <label class="field">
+        <span>Reminder</span>
+        <input type="datetime-local" formControlName="reminderAt" />
+      </label>
+
+      @if (error()) {
+        <p class="alert alert-error" role="alert">{{ error() }}</p>
+      }
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+          {{ submitting() ? 'Saving…' : 'Save' }}
+        </button>
+        <a class="btn" routerLink="/tasks">Cancel</a>
+      </div>
+    </form>
+  }
+</section>

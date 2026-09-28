@@ -1,0 +1,111 @@
+<div class="list-header">
+  <h2>My tasks</h2>
+  <a class="btn btn-primary" routerLink="/tasks/new">New task</a>
+</div>
+
+<form class="card filters" [formGroup]="filters" aria-label="Task filters">
+  <label class="field">
+    <span>Search</span>
+    <input type="search" formControlName="search" placeholder="Title contains…" />
+  </label>
+  <label class="field">
+    <span>Status</span>
+    <select formControlName="status">
+      <option value="">All</option>
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ statusLabels[status] }}</option>
+      }
+    </select>
+  </label>
+  <label class="field">
+    <span>Priority</span>
+    <select formControlName="priority">
+      <option value="">All</option>
+      @for (priority of priorities; track priority) {
+        <option [value]="priority">{{ priorityLabels[priority] }}</option>
+      }
+    </select>
+  </label>
+  <label class="field">
+    <span>Sort by</span>
+    <select formControlName="sort">
+      <option value="DUE_DATE">Due date</option>
+      <option value="PRIORITY">Priority</option>
+      <option value="NEWEST">Newest</option>
+    </select>
+  </label>
+</form>
+
+@if (error()) {
+  <p class="alert alert-error" role="alert">{{ error() }}</p>
+}
+
+@if (page(); as current) {
+  @if (current.items.length === 0) {
+    <p class="card empty">
+      {{ loading() ? 'Loading…' : 'No tasks match. Create one to get started.' }}
+    </p>
+  } @else {
+    <ul class="tasks" [class.is-loading]="loading()">
+      @for (task of current.items; track task.id) {
+        <li class="card task" [class.is-done]="task.status === 'DONE'">
+          <input
+            type="checkbox"
+            class="task-check"
+            [checked]="task.status === 'DONE'"
+            (change)="toggleDone(task)"
+            [attr.aria-label]="'Mark ' + task.title + (task.status === 'DONE' ? ' as to do' : ' as done')"
+          />
+          <div class="task-body">
+            <a class="task-title" [routerLink]="['/tasks', task.id, 'edit']">{{ task.title }}</a>
+            @if (task.description) {
+              <p class="muted task-description">{{ task.description }}</p>
+            }
+            <div class="badges">
+              <span class="badge priority-{{ task.priority.toLowerCase() }}">{{
+                priorityLabels[task.priority]
+              }}</span>
+              <span class="badge">{{ statusLabels[task.status] }}</span>
+              @if (task.dueDate) {
+                <span class="badge" [class.badge-overdue]="task.overdue">
+                  {{ task.overdue ? 'Overdue · ' : 'Due ' }}{{ task.dueDate | date: 'mediumDate' }}
+                </span>
+              }
+              @if (task.reminderAt) {
+                <span class="badge">
+                  {{ task.reminderSent ? 'Reminded' : 'Reminder' }}
+                  {{ task.reminderAt | date: 'short' }}
+                </span>
+              }
+            </div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-danger" (click)="remove(task)">
+            Delete
+          </button>
+        </li>
+      }
+    </ul>
+
+    @if (current.totalPages > 1) {
+      <nav class="pager" aria-label="Pagination">
+        <button
+          type="button"
+          class="btn"
+          [disabled]="current.page === 0"
+          (click)="goToPage(current.page - 1)"
+        >
+          Previous
+        </button>
+        <span class="muted">Page {{ current.page + 1 }} of {{ current.totalPages }}</span>
+        <button
+          type="button"
+          class="btn"
+          [disabled]="current.page + 1 >= current.totalPages"
+          (click)="goToPage(current.page + 1)"
+        >
+          Next
+        </button>
+      </nav>
+    }
+  }
+}
