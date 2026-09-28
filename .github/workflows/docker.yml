@@ -1,0 +1,21 @@
+name: Docker
+
+on:
+  push:
+    branches: [main]
+    paths: ['taskflow-back/**', 'taskflow-web/**', 'docker-compose.yml', '.github/workflows/docker.yml']
+  pull_request:
+    paths: ['taskflow-back/**', 'taskflow-web/**', 'docker-compose.yml', '.github/workflows/docker.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate the Compose file
+        run: docker compose --env-file .env.example config --quiet
+      - name: Build the images
+        run: docker compose --env-file .env.example build

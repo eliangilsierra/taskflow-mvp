@@ -1,0 +1,27 @@
+name: Backend
+
+on:
+  push:
+    branches: [main]
+    paths: ['taskflow-back/**', '.github/workflows/back.yml']
+  pull_request:
+    paths: ['taskflow-back/**', '.github/workflows/back.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: taskflow-back
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Build, check formatting and run tests
+        run: ./mvnw -B verify

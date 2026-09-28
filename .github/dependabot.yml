@@ -1,0 +1,34 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /taskflow-back
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'build(back)'
+  - package-ecosystem: npm
+    directory: /taskflow-web
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'build(web)'
+    # Angular major upgrades are done deliberately with `ng update`.
+    ignore:
+      - dependency-name: '@angular/*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@angular-devkit/*'
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'ci'
+  - package-ecosystem: docker
+    directory: /taskflow-back
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: /taskflow-web
+    schedule:
+      interval: weekly
