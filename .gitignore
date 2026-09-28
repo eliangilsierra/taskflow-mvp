@@ -1,0 +1,32 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Backend (Maven)
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Frontend (Angular / Node)
+node_modules/
+dist/
+out-tsc/
+.angular/
+coverage/
+npm-debug.log*
+yarn-error.log*
+testem.log
+
+# IDEs and editors
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
