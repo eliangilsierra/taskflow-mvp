@@ -17,7 +17,7 @@ jobs:
       # Only used to interpolate the Compose file; never a real secret.
       JWT_SECRET: ci-only-placeholder-not-used-at-runtime
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Validate the Compose file
         run: docker compose --env-file .env.example config --quiet
       - name: Build the images
